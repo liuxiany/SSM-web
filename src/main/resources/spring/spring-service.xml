@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<!-- 依次配置：事物管理器 /aop配置事务拦截规则-->
+
+	<!-- service包扫描 -->
+	<context:component-scan base-package="com.ssm.demo.service" />
+
+	<!-- 事物管理器 -->
+	<!-- 此类在spring-jdbc.jar中 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property><!-- 对应的druid的数据源 -->
+	</bean>
+	
+	
+	<!-- 配置事务拦截规则 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+
+			<tx:method name="add*" propagation="REQUIRED" rollback-for="Exception,Error"/>
+			<tx:method name="delete*" propagation="REQUIRED" rollback-for="Exception,Error"/>
+			<tx:method name="save*" propagation="REQUIRED" rollback-for="Exception,Error"/>
+			<tx:method name="handler*" propagation="REQUIRED" rollback-for="Exception,Error"/>
+			<tx:method name="*Handle" propagation="REQUIRED" rollback-for="Exception,Error"/>
+			<tx:method name="create*" propagation="REQUIRED" rollback-for="Exception,Error"/>
+			<tx:method name="dedute*" propagation="REQUIRED" rollback-for="Exception,Error"/>
+			<tx:method name="execute*" propagation="REQUIRED" rollback-for="Exception,Error"/>
+			<tx:method name="apply*" propagation="REQUIRED" rollback-for="Exception,Error"/>
+			<tx:method name="insert*" propagation="REQUIRED" rollback-for="Exception,Error"/>
+			<tx:method name="update*" propagation="REQUIRED" rollback-for="Exception,Error"/>
+			<tx:method name="*Deal" propagation="REQUIRED" rollback-for="Exception,Error"/>
+			<tx:method name="modify*" propagation="REQUIRED" rollback-for="Exception,Error"/>
+			<tx:method name="*" read-only="true"/>
+		</tx:attributes>
+	</tx:advice>
+	
+	<!-- aop织入配置 -->
+	<aop:config>
+		<aop:pointcut id="aopPointCut" expression="execution(* com.ssm.demo.service.impl.*.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="aopPointCut"/>
+	</aop:config>
+	
+	<!-- 基于注解的事务 -->
+	<!--如果使用此标签,则不需要配置事务拦截规则和aop织入-->
+	<!-- 需要的service的方法上加 @Transactional -->
+	<!-- <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/> -->
+</beans>

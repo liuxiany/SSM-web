@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
+  
+  <display-name>SSM-web</display-name>
+  <description>ssm学习demo</description>
+  <!-- web.xml中的加载顺序
+	ServletContext-> context-param ->listener -> filter -> servlet,
+	而同个类型之间的实际程序调用的时候的顺序是根据对应的 mapping 的顺序进行调用的
+   -->
+ 
+  <!-- context-param -->
+  <!-- 但是，如果没有指定的话，默认会去/WEB-INF/下加载applicationContext.xml-->
+  <!-- 此contextConfigLocation与dispatcherServlet的参数contextConfigLocation的区别见
+  	https://www.cnblogs.com/wodebudong/articles/7976468.html
+   -->
+  <context-param>
+  	<param-name>contextConfigLocation</param-name>
+  	<param-value>classpath:spring/spring-application.xml</param-value>
+  </context-param>
+
+	<!-- 加载指定位置的logback.xml,默认情况下logback会加载resource下的logback.xml-->
+	<context-param>
+		<param-name>logbackConfigLocation</param-name>
+		<param-value>classpath:logback/logback.xml</param-value>
+	</context-param>
+  
+  <!-- listenner -->
+
+  <!-- 防止发生java.beans.Introspector内存泄露,应将它配置在ContextLoaderListener的前面 -->
+  <!-- 详细描述见http://blog.csdn.net/jadyer/article/details/11991457 -->
+  <!-- 如果console报 没有找到此监听器，则是环境的问题，见https://www.cnblogs.com/guyezhai/p/5217632.html -->
+  <!-- spring-web.jar里 -->
+  <listener>
+      <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+  </listener>
+
+	<!--加载指定位置的logback.xml 参考自https://blog.csdn.net/static_coder/article/details/80276356
+		此listener必须在contextloaderListener之前,在logback-ext-spring.jar中-->
+	<listener>
+		<listener-class>ch.qos.logback.ext.spring.web.LogbackConfigListener</listener-class>
+	</listener>
+
+  <!-- ContextLoaderListener -->
+  <!-- ContextLoaderListener监听器的作用就是启动Web容器时，自动装配ApplicationContext的配置信息。-->
+  <!-- spring-web.jar里 -->
+  <listener>
+  	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+
+
+
+
+    <!-- filter -->
+  
+  <!-- 编码filter -->
+  <filter>
+  	<filter-name>characterEncodingFiler</filter-name>
+  	<!-- 该类在spring-web.jar下 -->
+  	<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+  	<init-param>
+  		<!-- 参数的名称是定义在此filter类里 ，方法doFilterInternal中会对HttpServletRequest,HttpServletResponse进行编码设置-->
+  		<param-name>encoding</param-name>
+  		<param-value>UTF-8</param-value>
+  	</init-param>
+  </filter>
+  
+  <filter-mapping>
+  	<filter-name>characterEncodingFiler</filter-name>
+  	<url-pattern>/*</url-pattern>
+  </filter-mapping>
+  
+  <!-- servlet -->
+  
+  <!-- springmvc的核心 dispathcerServlet -->
+  <servlet>
+  	<servlet-name>dispatcherServlet</servlet-name>
+  	<!-- 该类在spring-webmvc.jar下 -->
+  	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+  	<init-param>
+  		<!-- dispatcherServlet继承了类FrameworkServlet,参数contextConfigLocation定义在了FrameworkServlet中 
+  		方法createWebApplicationContext会使用此参数-->
+  		<!-- 如果不指定contextConfigLocation参数,
+			默认查找  WEB-INF/{servlet-name}-servlet.xml 配置文件
+		 -->
+  		<param-name>contextConfigLocation</param-name>
+  		<param-value>classpath:spring/spring-mvc.xml</param-value>
+  	</init-param>
+  	<!-- 当为正整数时，数字越小优先级越高 -->
+  	<load-on-startup>1</load-on-startup>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>dispatcherServlet</servlet-name>
+  	<!-- 拦截所有后缀为.htm的请求 -->
+  	<url-pattern>*.htm</url-pattern>
+  </servlet-mapping>
+  
+  <!-- 阿里巴巴数据源配置启用Web监控统计功能 -->
+    <!-- 通过 http://ip:port/druid/ 地址访问即可 -->
+    <servlet>  
+	    <servlet-name>DruidStatView</servlet-name>  
+	    <servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>  
+	    <init-param>  
+	        <!-- 允许清空统计数据 -->  
+	        <param-name>resetEnable</param-name>  
+	        <param-value>true</param-value>  
+	    </init-param>  
+	    <init-param>  
+	        <!-- 用户名 -->  
+	        <param-name>loginUsername</param-name>  
+	        <param-value>druid</param-value>  
+	    </init-param>  
+	    <init-param>  
+	        <!-- 密码 -->  
+	        <param-name>loginPassword</param-name>  
+	        <param-value>druid</param-value>  
+	    </init-param>  
+	</servlet>  
+	<servlet-mapping>  
+	    <servlet-name>DruidStatView</servlet-name>  
+	    <url-pattern>/druid/*</url-pattern>  
+	</servlet-mapping>
+  
+  
+  <!-- session -->
+  <!-- 单位为分钟。
+  	       优先级：Servlet中API设置 > web.xml设置 > Tomcat/conf/web.xml设置 -->
+  <session-config>
+      <session-timeout>30</session-timeout>
+  </session-config>
+
+	<!--项目启动之后的加载页,会覆盖Tomcat/conf/web.xml中的设置-->
+	<welcome-file-list>
+		<!--<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>-->
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+</web-app>

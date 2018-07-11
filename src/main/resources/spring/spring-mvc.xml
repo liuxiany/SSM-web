@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xmlns:context="http://www.springframework.org/schema/context" 
+xmlns:mvc="http://www.springframework.org/schema/mvc" 
+xsi:schemaLocation="http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans.xsd 
+http://www.springframework.org/schema/context 
+http://www.springframework.org/schema/context/spring-context.xsd 
+http://www.springframework.org/schema/mvc 
+http://www.springframework.org/schema/mvc/spring-mvc.xsd ">
+
+
+	<!-- 依次配置：controller包扫描/mvc注解驱动/视图解析器 -->
+
+	<!-- controller包扫描-->
+	<context:component-scan base-package="com.ssm.demo.controller" />
+	
+	<!-- 
+		从spring3.1开始推荐使用
+		一：类级别
+		org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping
+		替换为：
+		org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping
+		二：方法级别
+		org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter
+		替换为：
+		org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter
+		
+		这四个类都是在spring-webmvc.jar里
+	 -->
+	 
+	 <!-- 此注解的作用是自动配置 RequestMappingHandlerMapping和RequestMappingHandlerAdapter(这两个类都在spring-webmvc包中)
+	 	   并且提供了数据绑定支持，@NumberFormatannotation支持，
+	 	@DateTimeFormat支持,@Valid支持，读写XML的支持（JAXB）和读写JSON的支持（默认Jackson）等功能。
+	 	详细见https://blog.csdn.net/sjjsh2/article/details/53100728
+	 -->
+	<!--  <mvc:annotation-driven /> -->
+	 
+	 <bean id="requestMappingHandlerMapping" class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"></bean>
+	 
+	 <bean id="requestMappingHandlerAdapter" class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"></bean>
+	 
+	 <!-- 对静态资源的放行，不被dispatcherServlet拦截 ，web.xml中的dispatcherServlet拦截的是/的话则需要配置对静态资源的放行-->
+	 <!--  
+        1:静态资源默认servlet配置  
+        2:加入对静态资源的处理:js,gif,png  
+        3:允许使用"/"做整体映射  
+     -->  
+    <!-- <mvc:default-servlet-handler/> -->
+	 
+	 <!-- 视图解析器 -->
+	<!--配置多个视图解析器是应注意:配置不同类型视图解析器的时候，InternalResourceViewResolver必须放在最后(或者优先级最低)
+		https://blog.csdn.net/mawming/article/details/52128472
+		https://blog.csdn.net/banjing_1993/article/details/77981601
+		https://blog.csdn.net/h12kjgj/article/details/70307584-->
+
+	 <!-- jsp试图解析器:参照https://blog.csdn.net/superdog007/article/details/56488550 -->
+	 <!-- @param prefix the prefix that gets prepended to view names when building a URL
+	 * @param suffix the suffix that gets appended to view names when building a URL -->
+	 <bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	 	 <property name="prefix" value="/pages/jsp/"></property>
+	 	 <property name="suffix" value=".jsp"></property>
+		 <property name="order" value="1"></property><!--数字越小,优先级越高-->
+		 <property name="contentType" value="text/html;charset=UTF-8"></property>
+		 <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"></property>
+	 </bean>
+
+	 <!-- html的解析器 -->
+	<!--在spring-webmvc包中-->
+	<!--参考自https://blog.csdn.net/HELLOMRP/article/details/79783571-->
+	  <bean id="freeMarkerConfigurer" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+		  <!--FreeMarkerConfigurer继承自FreeMarkerConfigurationFactory,此2个参数在FreeMarkerConfigurationFactory中定义-->
+		  <property name="templateLoaderPath" value="/pages/html/"></property>
+		  <property name="defaultEncoding" value="UTF-8"></property>
+	  </bean>
+
+	<bean id="freeMarkerViewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+		<property name="suffix" value=".html"></property>
+		<property name="order" value="0"></property><!--数字越小,优先级越高-->
+		<property name="contentType" value="text/html;charset=UTF-8"></property>
+		<property name="viewClass" value="org.springframework.web.servlet.view.freemarker.FreeMarkerView"></property>
+		<property name="cache" value="false"></property><!--关闭缓存-->
+	</bean>
+	 
+</beans>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.demo.mapper.AccountMapper">
+    <insert id="add" parameterType="com.ssm.demo.entity.Account">
+      INSERT INTO account(id,score,user_id) VALUES (#{id},#{scroe},#{userId});
+  </insert>
+
+    <select id="selectByUserId" parameterType="java.lang.String" resultType="com.ssm.demo.entity.Account">
+
+        select id,score,user_id from account where user_id = #{userId}
+    </select>
+</mapper>
