@@ -1,6 +1,5 @@
 package com.ssm.demo.controller;
 
-import com.alibaba.fastjson.support.spring.annotation.ResponseJSONP;
 import com.ssm.demo.entity.User;
 import com.ssm.demo.service.IDemoService;
 import org.slf4j.Logger;
