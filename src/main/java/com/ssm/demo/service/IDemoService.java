@@ -2,6 +2,8 @@ package com.ssm.demo.service;
 
 import com.ssm.demo.entity.User;
 
+import java.util.List;
+
 
 public interface IDemoService {
 	/**
@@ -13,4 +15,5 @@ public interface IDemoService {
 	 */
     void addUser(String name) throws Exception;
 
+	List<User> getAllUsers();
 }

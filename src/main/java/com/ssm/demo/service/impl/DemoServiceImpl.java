@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import com.ssm.demo.mapper.UserMapper;
 import com.ssm.demo.service.IDemoService;
 
+import java.util.List;
+
 @Service("demoService")
 @Scope("singleton")
 public class DemoServiceImpl implements IDemoService {
@@ -39,8 +41,16 @@ public class DemoServiceImpl implements IDemoService {
 		userMapper.add(user);
 		accountMapper.add(account);
 
-		throw new Exception();
+		/**
+		 * 测试事务，抛出异常时，事务回滚。
+		 */
+		//throw new Exception();
 
 
+	}
+
+	@Override
+	public List<User> getAllUsers() {
+		return userMapper.selectAll();
 	}
 }
