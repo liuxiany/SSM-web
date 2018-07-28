@@ -309,6 +309,13 @@
 		  <version>2.3.28</version>
 	  </dependency>
 
+	  <!--fastjson-->
+	  <dependency>
+		  <groupId>com.alibaba</groupId>
+		  <artifactId>fastjson</artifactId>
+		  <version>1.2.47</version>
+	  </dependency>
+
 
   </dependencies>
   <build>

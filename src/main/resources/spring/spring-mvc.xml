@@ -39,7 +39,36 @@ http://www.springframework.org/schema/mvc/spring-mvc.xsd ">
 	 
 	 <bean id="requestMappingHandlerMapping" class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"></bean>
 	 
-	 <bean id="requestMappingHandlerAdapter" class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"></bean>
+	 <bean id="requestMappingHandlerAdapter" class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+		<!--使用fastjson替换spring内置的jackson-->
+		 <property name="messageConverters">
+			<list>
+				<ref bean="fastJsonHttpMessageConverter" />
+			</list>
+		</property>
+	 </bean>
+
+	<bean id="fastJsonHttpMessageConverter" class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<list>
+				<value>text/html;charset=UTF-8</value>
+				<value>application/json;charset=UTF-8</value>
+			</list>
+		</property>
+		<property name="fastJsonConfig" ref="fastJsonConfig"></property>
+		<property name="defaultCharset" value="UTF-8"></property>
+	</bean>
+
+	<bean id="fastJsonConfig" class="com.alibaba.fastjson.support.config.FastJsonConfig">
+		<property name="features">
+			<list>
+				<value>AllowArbitraryCommas</value>
+				<value>AllowUnQuotedFieldNames</value>
+				<value>DisableCircularReferenceDetect</value>
+			</list>
+		</property>
+		<property name="dateFormat" value="yyyy-MM-dd HH:mm:ss">	</property>
+	</bean>
 	 
 	 <!-- 对静态资源的放行，不被dispatcherServlet拦截 ，web.xml中的dispatcherServlet拦截的是/的话则需要配置对静态资源的放行-->
 	 <!--  

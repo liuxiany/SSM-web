@@ -11,4 +11,8 @@
 
         select id,name from user where id = #{id}
     </select>
+
+    <select id="selectAll" resultType="com.ssm.demo.entity.User">
+        select id,name from user
+    </select>
 </mapper>
