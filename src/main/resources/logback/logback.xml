@@ -15,7 +15,7 @@
         <!-- 一是把日志信息转换成字节数组,二是把字节数组写入到输出流 -->
         <encoder>
             <Pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%5level] [%thread] %logger{0} %msg%n</Pattern>
-            <charset>UTF-8</charset>
+            <charset>GBK</charset>
         </encoder>
     </appender>
  

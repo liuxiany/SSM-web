@@ -47,9 +47,19 @@
   	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
 
+	<!--RequestContextListner-->
+	<!--增加对bean的 scope：request,session,globalsession的支持，详细见
+		https://my.oschina.net/glorylion/blog/498994-->
+	<listener>
+		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+	</listener>
 
-
-
+	<!--自定义listener-->
+	<listener>
+		<listener-class>com.ssm.demo.listener.DemoContextLoadListener</listener-class>
+	</listener>
+	
+	
     <!-- filter -->
   
   <!-- 编码filter -->
