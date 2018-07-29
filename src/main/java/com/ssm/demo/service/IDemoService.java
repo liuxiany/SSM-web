@@ -15,5 +15,9 @@ public interface IDemoService {
 	 */
     void addUser(String name) throws Exception;
 
+	/**
+	 * 获取所有用户
+	 * @return
+	 */
 	List<User> getAllUsers();
 }

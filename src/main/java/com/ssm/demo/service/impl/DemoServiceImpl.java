@@ -37,15 +37,16 @@ public class DemoServiceImpl implements IDemoService {
         account.setId(String.valueOf(System.currentTimeMillis()));
         account.setUserId(user.getId());
 
-
 		userMapper.add(user);
 		accountMapper.add(account);
 
-		/**
-		 * 测试事务，抛出异常时，事务回滚。
-		 */
-		//throw new Exception();
 
+        /**
+         * 测试事务，抛出异常时，事务回滚。
+         */
+        /*Account account2 = accountMapper.selectByUserId(String.valueOf(System.currentTimeMillis()));
+
+        account2.setScroe(10.5);*/
 
 	}
 

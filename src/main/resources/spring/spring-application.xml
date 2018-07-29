@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
 	<!-- 读取配置文件 -->
 	<!--<context:property-placeholder/>标签会配置
 		org.springframework.beans.factory.config.PropertyPlaceholderConfigurer bean -->
-	<!-- <context:property-placeholder location="classpath:config/jdbc.properties" /> -->
+	 <!--<context:property-placeholder location="classpath:config/jdbc.properties" />-->
 
 	<!-- 在 spring-beans.jar中 -->
 	<!-- 等效于 <context:property-placeholder/>-->
@@ -18,4 +20,5 @@
 	<!-- 不引入springmvc的配置文件 -->
 	<import resource="spring-dao.xml"/>
 	<import resource="spring-service.xml"/>
+
 </beans>
