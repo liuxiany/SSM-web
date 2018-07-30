@@ -49,4 +49,11 @@ public class DemoController {
 	public String testControllerAdvice() throws GlobalException {
 		throw new GlobalException("0001","testControllerAdvice");
 	}
+
+	@RequestMapping(value = "/getUserById.htm", method = RequestMethod.GET)
+	@ResponseBody
+	public User getUserById(String userId) throws GlobalException{
+		User user = demoService.getUserById(userId);
+		return user;
+	}
 }

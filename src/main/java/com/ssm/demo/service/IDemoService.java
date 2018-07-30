@@ -20,4 +20,6 @@ public interface IDemoService {
 	 * @return
 	 */
 	List<User> getAllUsers();
+
+    User getUserById(String userId);
 }

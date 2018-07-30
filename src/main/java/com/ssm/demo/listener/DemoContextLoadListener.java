@@ -21,7 +21,6 @@ public class DemoContextLoadListener implements ServletContextListener {
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
-        System.out.print(System.currentTimeMillis());
         logger.info("容器销毁。。。");
     }
 }
