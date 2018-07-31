@@ -7,6 +7,7 @@ import javax.servlet.ServletRequestEvent;
 import javax.servlet.ServletRequestListener;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -26,6 +27,11 @@ public class DemoRequestListener implements ServletRequestListener {
     public void requestInitialized(ServletRequestEvent servletRequestEvent) {
 
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequestEvent.getServletRequest();
+        try {
+            httpServletRequest.setCharacterEncoding("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
 
         /*logger.info(httpServletRequest.getScheme() + "://"+ httpServletRequest.getServerName() + ":"
                 + httpServletRequest.getServerPort() + httpServletRequest.getContextPath());*/
@@ -37,9 +43,12 @@ public class DemoRequestListener implements ServletRequestListener {
         //获取cookies
         Cookie[] cookies = httpServletRequest.getCookies();
 
-        for (Cookie cookie : cookies){
-            logger.info("cookies:" + cookie.getName() + ":" + cookie.getValue());
+        if(cookies != null){
+            for (Cookie cookie : cookies){
+                logger.info("cookies:" + cookie.getName() + ":" + cookie.getValue());
+            }
         }
+
 
         //获取parameter
         Map<String,String[]> parameters = httpServletRequest.getParameterMap();
