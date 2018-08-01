@@ -1,5 +1,6 @@
 package com.ssm.demo.filter;
 
+import com.ssm.demo.util.HttpMethod;
 import com.ssm.demo.wrapper.RequestParametersWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,11 +51,11 @@ public class CharacterEndoingFilter implements Filter {
 
         logger.info("httpMethod:" + httpMethod);
 
-        if("POST".equals(httpMethod)){
+        if(HttpMethod.POST.getValue() .equals(httpMethod)){
             requestParametersWrapper.setCharacterEncoding("UTF-8");
             servletResponse.setCharacterEncoding("UTF-8");
 
-        }else if("GET".equals(httpMethod)) {
+        }else if(HttpMethod.GET.getValue().equals(httpMethod)) {
 
             Map<String, String[]> parametersMap = requestParametersWrapper.getParameterMap();
 

@@ -1,5 +1,6 @@
 package com.ssm.demo.listener;
 
+import com.ssm.demo.util.HttpMethod;
 import com.ssm.demo.wrapper.RequestParametersWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +35,7 @@ public class DemoRequestListener implements ServletRequestListener {
 
         logger.info("httpMethod is:" + httpMethod);
 
-        if ("POST".equals(httpMethod)){
+        if (HttpMethod.POST.getValue().equals(httpMethod)){
 
             try {
                 httpServletRequest.setCharacterEncoding("UTF-8");
@@ -80,7 +81,7 @@ public class DemoRequestListener implements ServletRequestListener {
 
                 for(int i = 0; i < values.length; i++){
 
-                    if("GET".equals(httpMethod)){
+                    if(HttpMethod.GET.getValue().equals(httpMethod)){
 
                         try {
                             values[i] = new String(values[i].getBytes("ISO-8859-1"),"utf-8");
