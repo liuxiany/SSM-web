@@ -89,9 +89,10 @@ public class DemoRequestListener implements ServletRequestListener {
                             logger.info("new String from ISO-8859-1 to UTF-8 fail",e);
                             e.printStackTrace();
                         }
+
+                        logger.info("value:" + newValues[i]);
                     }
 
-                    logger.info("value:" + newValues[i]);
                 }
 
 //                parameters.put(key,newValues);
