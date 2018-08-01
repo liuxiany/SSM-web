@@ -35,6 +35,6 @@ public class DemoSessionListener implements HttpSessionListener {
 
     @Override
     public void sessionDestroyed(HttpSessionEvent httpSessionEvent) {
-        logger.info("session 销毁了");
+        logger.info("sessionDestroyed");
     }
 }

@@ -15,4 +15,8 @@
     <select id="selectAll" resultType="com.ssm.demo.entity.User">
         select id,name from user
     </select>
+
+    <select id="getUserByName" parameterType="java.lang.String" resultType="com.ssm.demo.entity.User">
+        select id,name from user where name like "%"#{name}"%"
+    </select>
 </mapper>

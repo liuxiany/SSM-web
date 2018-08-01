@@ -38,22 +38,29 @@ public class DemoController {
 		return "testhtml";
 	}
 
-	@RequestMapping(value = "/getAllUsers.htm", method = RequestMethod.GET)
+	@RequestMapping(value = "getAllUsers.htm", method = RequestMethod.GET)
 	@ResponseBody
 	public List<User> getAllUsers(){
 		List<User> users = demoService.getAllUsers();
 		return users;
 	}
 
-	@RequestMapping(value = "/testAdvice.htm", method = RequestMethod.GET)
+	@RequestMapping(value = "testAdvice.htm", method = RequestMethod.GET)
 	public String testControllerAdvice() throws GlobalException {
 		throw new GlobalException("0001","testControllerAdvice");
 	}
 
-	@RequestMapping(value = "/getUserById.htm", method = RequestMethod.GET)
+	@RequestMapping(value = "getUserById.htm", method = RequestMethod.GET)
 	@ResponseBody
 	public User getUserById(String userId) throws GlobalException{
 		User user = demoService.getUserById(userId);
 		return user;
+	}
+
+	@RequestMapping(value = "getUsersByName.htm", method = RequestMethod.GET)
+	@ResponseBody
+	public List<User> getUsersByName(String name){
+		List<User> users = demoService.getUserByName(name);
+		return users;
 	}
 }

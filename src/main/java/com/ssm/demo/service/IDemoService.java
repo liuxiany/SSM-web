@@ -22,4 +22,6 @@ public interface IDemoService {
 	List<User> getAllUsers();
 
     User getUserById(String userId);
+
+    List<User> getUserByName(String name);
 }

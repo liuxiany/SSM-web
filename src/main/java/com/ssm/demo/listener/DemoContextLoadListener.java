@@ -15,12 +15,11 @@ public class DemoContextLoadListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        System.out.print(System.currentTimeMillis());
-        logger.info("容器初始化。。。");
+        logger.info("contextInitialized");
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
-        logger.info("容器销毁。。。");
+        logger.info("contextDestroyed");
     }
 }

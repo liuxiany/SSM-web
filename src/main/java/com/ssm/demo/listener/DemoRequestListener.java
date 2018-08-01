@@ -1,5 +1,6 @@
 package com.ssm.demo.listener;
 
+import com.ssm.demo.wrapper.RequestParametersWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,14 +15,6 @@ import java.util.Set;
 
 /**
  * 自定义requestListener
- *
- * post提交产生乱码的原因：
- * post方式提交的数据是在请求体中，request对象接收到数据之后，放入request的缓冲区中。缓冲区就有编码（默认ISO-8859-1:不支持中文）.
- * 解决方案：将request的缓冲区的编码修改了即可。request.setCharacterEncoding("UTF-8");
- *
- * get提交产生乱码的原因:get方式提交的数据在请求行的url后面，地址栏上其实就已经进行一次URL的编码了.
- * 解决方案:将存入到request缓冲区中的值以ISO-8859-1的方式获取到，以UTF-8的方式进行解码。
- * 例如:String value = new String(name.getBytes("ISO-8859-1"),"UTF-8");
  */
 public class DemoRequestListener implements ServletRequestListener {
 
@@ -29,18 +22,28 @@ public class DemoRequestListener implements ServletRequestListener {
 
     @Override
     public void requestDestroyed(ServletRequestEvent servletRequestEvent) {
-        logger.info("request 销毁了");
+        logger.info("requestDestroyed");
     }
 
     @Override
     public void requestInitialized(ServletRequestEvent servletRequestEvent) {
 
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequestEvent.getServletRequest();
-        try {
-            httpServletRequest.setCharacterEncoding("UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+
+        String httpMethod = httpServletRequest.getMethod();
+
+        logger.info("httpMethod is:" + httpMethod);
+
+        if ("POST".equals(httpMethod)){
+
+            try {
+                httpServletRequest.setCharacterEncoding("UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                logger.info("set request characterEncoding fail",e);
+                e.printStackTrace();
+            }
         }
+
 
         /*logger.info(httpServletRequest.getScheme() + "://"+ httpServletRequest.getServerName() + ":"
                 + httpServletRequest.getServerPort() + httpServletRequest.getContextPath());*/
@@ -58,6 +61,8 @@ public class DemoRequestListener implements ServletRequestListener {
             }
         }
 
+        //使parameterMap可修改
+        httpServletRequest = new RequestParametersWrapper(httpServletRequest);
 
         //获取parameter
         Map<String,String[]> parameters = httpServletRequest.getParameterMap();
@@ -67,12 +72,32 @@ public class DemoRequestListener implements ServletRequestListener {
         Iterator<String> keyIterator = keys.iterator();
         while (keyIterator.hasNext()){
             String key = keyIterator.next().toString();
-            logger.info("parameter：" + key);
+            logger.info("parameter:" + key);
             String[] values = parameters.get(key);
 
-            for(String value : values){
-                logger.info("value:" + value);
+            if(values != null){
+                String[] newValues = new String[values.length];
+
+                for(int i = 0; i < values.length; i++){
+
+                    if("GET".equals(httpMethod)){
+
+                        try {
+                            values[i] = new String(values[i].getBytes("ISO-8859-1"),"utf-8");
+                            newValues[i] = values[i];
+                        } catch (UnsupportedEncodingException e) {
+                            logger.info("new String from ISO-8859-1 to UTF-8 fail",e);
+                            e.printStackTrace();
+                        }
+                    }
+
+                    logger.info("value:" + newValues[i]);
+                }
+
+//                parameters.put(key,newValues);
+
             }
+
         }
     }
 }

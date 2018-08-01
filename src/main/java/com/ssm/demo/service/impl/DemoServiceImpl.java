@@ -59,4 +59,9 @@ public class DemoServiceImpl implements IDemoService {
 	public User getUserById(String userId) {
 		return userMapper.selectByPrimaryKey(userId);
 	}
+
+	@Override
+	public List<User> getUserByName(String name) {
+		return userMapper.getUserByName(name);
+	}
 }
