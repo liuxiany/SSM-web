@@ -1,6 +1,5 @@
 package com.ssm.demo.controller;
 
-import com.ssm.demo.util.GlobalException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -12,12 +11,13 @@ import org.springframework.web.servlet.ModelAndView;
 //@EnableWebMvc
 public class GlobalExceptionController {
 
-    @ExceptionHandler(value = GlobalException.class)
-    public ModelAndView ExceptionHandler(GlobalException gex){
+    @ExceptionHandler(value = Exception.class)
+    public ModelAndView GlobalExceptionHandler(Exception ex){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("exception");
-        modelAndView.addObject("erroCode",gex.getErrCode());
-        modelAndView.addObject("erroMessage",gex.getErrMsg());
+        modelAndView.addObject("erroCode","error");
+        modelAndView.addObject("erroMessage","测试全局异常处理");
         return modelAndView;
     }
+
 }

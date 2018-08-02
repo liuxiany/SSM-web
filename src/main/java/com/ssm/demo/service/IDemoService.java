@@ -19,9 +19,9 @@ public interface IDemoService {
 	 * 获取所有用户
 	 * @return
 	 */
-	List<User> getAllUsers();
+	List<User> getAllUsers() throws Exception;
 
-    User getUserById(String userId);
+    User getUserById(String userId) throws Exception;
 
-    List<User> getUserByName(String name);
+    List<User> getUserByName(String name) throws Exception;
 }

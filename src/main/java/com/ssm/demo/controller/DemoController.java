@@ -2,7 +2,6 @@ package com.ssm.demo.controller;
 
 import com.ssm.demo.entity.User;
 import com.ssm.demo.service.IDemoService;
-import com.ssm.demo.util.GlobalException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -40,26 +39,26 @@ public class DemoController {
 
 	@RequestMapping(value = "getAllUsers.htm", method = RequestMethod.GET)
 	@ResponseBody
-	public List<User> getAllUsers(){
+	public List<User> getAllUsers() throws Exception{
 		List<User> users = demoService.getAllUsers();
 		return users;
 	}
 
 	@RequestMapping(value = "testAdvice.htm", method = RequestMethod.GET)
-	public String testControllerAdvice() throws GlobalException {
-		throw new GlobalException("0001","testControllerAdvice");
+	public String testControllerAdvice() throws Exception {
+		throw new Exception();
 	}
 
 	@RequestMapping(value = "getUserById.htm", method = RequestMethod.GET)
 	@ResponseBody
-	public User getUserById(String userId) throws GlobalException{
+	public User getUserById(String userId) throws Exception{
 		User user = demoService.getUserById(userId);
 		return user;
 	}
 
 	@RequestMapping(value = "getUsersByName.htm", method = RequestMethod.GET)
 	@ResponseBody
-	public List<User> getUsersByName(String name){
+	public List<User> getUsersByName(String name) throws Exception{
 		List<User> users = demoService.getUserByName(name);
 		return users;
 	}
