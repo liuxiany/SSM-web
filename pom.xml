@@ -248,6 +248,8 @@
     <!--tomcat中也有servlet-api包，包冲突.
     解决方法：添加<scope>provided</scope>，provided表明该包只在编译和测试的时候用.
     所以，当启动tomcat的时候，就不会冲突了，-->
+    <!--https://blog.csdn.net/lovesomnus/article/details/76899728
+    servlet3.1以后是javax.servlet-->
     <dependency>
 	    <groupId>javax.servlet</groupId>
 	    <artifactId>javax.servlet-api</artifactId>

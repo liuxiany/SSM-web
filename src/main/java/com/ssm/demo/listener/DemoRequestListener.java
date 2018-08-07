@@ -62,9 +62,6 @@ public class DemoRequestListener implements ServletRequestListener {
             }
         }
 
-        //使parameterMap可修改
-        httpServletRequest = new RequestParametersWrapper(httpServletRequest);
-
         //获取parameter
         Map<String,String[]> parameters = httpServletRequest.getParameterMap();
 
@@ -95,8 +92,6 @@ public class DemoRequestListener implements ServletRequestListener {
                     }
 
                 }
-
-//                parameters.put(key,newValues);
 
             }
 
