@@ -14,5 +14,8 @@
 <body>
 	<h2>测试jsp</h2>
 	<h3>新增用户:测试事务回滚</h3>
+	<h3>新增用户:${user.name}</h3>
+	<h3>${string}</h3>
+	<h3>${hello}</h3>
 </body>
 </html>

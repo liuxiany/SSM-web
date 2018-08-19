@@ -102,6 +102,21 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
+	<!--
+	Servlet规范中明确规定，	ServletRequest.getParameter*()系列的方法只能支持通过 HTTP	POST方法的方式提交表单，而不支持HTTP,PUT的方式。
+	将会拦截内容类型(content	type)为	application/x-www-form-urlencoded	、HTTP 方法为PUT或PATCH类型的请求，然后从请求体中读取表单数据，
+	把它们包装 在ServletRequest	中。这是为了使表单数据能够通过	ServletRequest.getParameter*()	系列的方法来拿到。
+	-->
+	<filter>
+		<filter-name>httpPutFormFilter</filter-name>
+		<filter-class>org.springframework.web.filter.HttpPutFormContentFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>httpPutFormFilter</filter-name>
+		<servlet-name>dispatcherServlet</servlet-name>
+	</filter-mapping>
+
   <!-- servlet -->
   
   <!-- springmvc的核心 dispathcerServlet -->
