@@ -17,5 +17,7 @@
 	<h3>新增用户:${user.name}</h3>
 	<h3>${string}</h3>
 	<h3>${hello}</h3>
+	<h3>${controllerAdvice}</h3>
+	<h3>${date}</h3>
 </body>
 </html>

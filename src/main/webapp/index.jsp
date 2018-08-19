@@ -6,6 +6,7 @@
         <h4>添加用户</h4>
         <form action="${pageContext.request.contextPath}/demo/addUser.htm" method="post">
             姓名：<input name="name" type="text"/>
+            日期：<input name="date" type="text"/>
             <input type="submit" value="提交"/>
         </form>
 

@@ -2,11 +2,14 @@ package com.ssm.demo.entity;
 
 
 import java.io.Serializable;
+import java.util.Date;
 
 
 public class User implements Serializable {
     private String id;
     private String name;
+
+    private Date date;
 
     public User(){}
 
@@ -28,5 +31,13 @@ public class User implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

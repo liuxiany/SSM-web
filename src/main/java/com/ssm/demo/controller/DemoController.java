@@ -43,7 +43,7 @@ public class DemoController {
         }
 
 		demoService.addUser(user.getName());
-
+        logger.info("date:{}",user.getDate());
 		logger.info("service is done");
 		return "test";
 	}
