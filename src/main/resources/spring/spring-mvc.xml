@@ -44,7 +44,15 @@ http://www.springframework.org/schema/mvc/spring-mvc.xsd ">
 	</mvc:annotation-driven>-->
 
 	<!--此类的作用是处理映射请求，处理使用@RequestMapping注解的-->
-	 <bean id="requestMappingHandlerMapping" class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"></bean>
+	 <bean id="requestMappingHandlerMapping" class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
+		 <!--此属性在抽象类AbstractHandlerMapping中，requestMappingHandlerMapping继承了此抽象类-->
+		 <property name="interceptors">
+			 <list>
+				 <bean class="com.ssm.demo.interceptor.DemoHandlerInterceptor"></bean>
+			 </list>
+		 </property>
+	 </bean>
+
 
 	<!--此类的作用是处理请求调用-->
 	 <bean id="requestMappingHandlerAdapter" class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
